@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { THEMES } from '@/lib/event';
+import { THEMES, THEMES_INTRO } from '@/lib/event';
 import { OrbitBackdrop } from './Backdrop';
 import { Reveal, SectionHeading } from './ui';
 
@@ -14,10 +14,9 @@ export default function Themes() {
       <OrbitBackdrop side="right" />
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-8">
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-          <SectionHeading index="02" eyebrow="What we’ll explore" title="Four conversations" accent="HR can’t skip." />
+          <SectionHeading index="02" eyebrow="What we’ll explore" title="Four conversations" accent="HR can’t afford to miss." />
           <Reveal delay={0.1} className="max-w-sm text-ink-soft">
-            Each theme runs through the day’s keynotes, power talks and panels, so you leave with a point of view and not
-            just a page of notes.
+            {THEMES_INTRO}
           </Reveal>
         </div>
 

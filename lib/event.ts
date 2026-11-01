@@ -19,11 +19,11 @@ export const EVENT = {
   intro:
     'A one-day conclave for people leaders at Technopark. CHROs, founders, practitioners and policy makers come together to work through what HR now owns: turning technology into real productivity, keeping culture steady through change, and staying fair and human while organisations transform.',
 
-  // ISO date-time with IST offset, e.g. '2026-11-20T09:00:00+05:30'.
-  // Leave null until the date is final — the site shows "Date announcing soon"
-  // and hides the countdown.
-  startsAt: null as string | null,
-  endsAt: null as string | null,
+  // ISO date-time with IST offset. Set to null if the date ever becomes unconfirmed:
+  // the site then shows "Date announcing soon" and hides the countdown.
+  startsAt: '2026-11-19T08:30:00+05:30' as string | null,
+  endsAt: '2026-11-19T17:00:00+05:30' as string | null,
+  doorsOpen: '8:30 AM',
 
   // Registration link (e.g. MakeMyPass). Leave empty and every ticket button
   // reads "Registrations opening soon" instead of linking out.
@@ -68,80 +68,98 @@ export const EVENT = {
 //   { role: 'In association with', name: 'The Times of India', logo: '/TOI_logo.jpg' },
 export const PRESENTERS: { role: string; name: string; logo: string }[] = [];
 
-// CONFIRM — themes carried over from the ELEVATE'26 Kochi edition as placeholders.
+export const THEMES_INTRO =
+  'The world of work is changing, and so are the questions organisations need to answer. Elevate 2026 brings four important conversations to the table, exploring the intersection of people, business, technology, and human potential.';
+
 export const THEMES = [
   {
-    title: 'Culture as Infrastructure',
-    kicker: 'Not philosophy',
+    title: 'Culture as a Growth Engine',
+    kicker: 'Building workplaces where people and organisations grow together.',
     description:
-      'Culture now decides execution speed, innovation adoption and whether talent stays. It is an operating system for how work gets done, not a poster on the wall.',
+      'Culture is more than a set of organisational values. It shapes how people experience work, how they contribute, and whether they find room to grow. The challenge is creating environments where performance and human development reinforce each other.',
     takeaways: [
-      'Converting values into performance-driving behaviours',
-      'Understanding trust, bias and influence in decisions',
-      'Designing cultures that support speed and adaptability',
+      'Translating organisational values into everyday workplace experiences.',
+      'Building trust, belonging, and opportunities for individual growth.',
+      'Connecting employee experience with organisational performance.',
     ],
   },
   {
-    title: 'The Great Reinvention of HR',
-    kicker: 'From process owner to enterprise partner',
+    title: 'The Human Potential in an AI-Enabled Workplace',
+    kicker: 'Making technology an enabler of human capability.',
     description:
-      'As automation absorbs administrative work, HR must rebuild itself around advisory capability, workforce design and business alignment.',
+      'As AI transforms how work gets done, the opportunity goes beyond automation and efficiency. The real question is how organisations can use technology to expand human capability, rethink roles, and create room for creativity, judgement, and meaningful contribution.',
     takeaways: [
-      'Identifying legacy practices that limit relevance',
-      'Redesigning HR roles toward consulting, analytics and change',
-      'Operating models aligned with enterprise outcomes',
+      'Designing work around the strengths of both people and technology.',
+      'Building capabilities for an AI-enabled workforce.',
+      'Ensuring technological progress creates opportunities for human growth.',
     ],
   },
   {
-    title: 'Workforce Economics',
-    kicker: 'Capability design in an AI-normal world',
+    title: 'Beyond the Talent Hunt',
+    kicker: 'From finding talent to cultivating potential.',
     description:
-      'The conversation has moved from automation to productivity. How is talent deployed, reskilled and structured so it actually creates value?',
+      'Finding the right candidate is only one part of building a capable workforce. Organisations must also rethink how they identify potential, recognise demonstrated skills, and develop talent before a vacancy arises. The opportunity lies in building stronger talent pipelines through campuses, industry partnerships, continuous learning, and proof of work.',
     takeaways: [
-      'Linking talent strategy to financial performance',
-      'Designing agile organisation structures',
-      'Managing cost pressure while protecting innovation',
+      'Moving from reactive recruitment to proactive talent development.',
+      'Recognising skills and proof of work beyond conventional qualifications.',
+      'Building stronger connections between campuses and industry.',
     ],
   },
   {
-    title: 'Trust, Empathy & Governance',
-    kicker: 'In a tech-accelerated workplace',
+    title: 'The Human Side of Business Decisions',
+    kicker: 'Balancing business priorities with human responsibility.',
     description:
-      'With algorithms shaping decisions, HR must keep transparency, fairness and human-centred leadership intact.',
+      'Every major organisational decision has a human consequence. From workforce restructuring and changing job roles to technological transitions and productivity pressures, HR operates at the intersection of business expectations and people’s realities. How can organisations navigate change while preserving trust, fairness, and dignity?',
     takeaways: [
-      'Legal and ethical implications of digital workplaces',
-      'Building employee trust in tech-enabled environments',
-      'Governance that enables innovation responsibly',
+      'Navigating difficult workforce decisions with empathy and responsibility.',
+      'Balancing business outcomes with employee needs and long-term trust.',
+      'Strengthening HR’s role in shaping responsible organisational change.',
     ],
   },
 ];
 
-export type AgendaKind = 'break' | 'address' | 'keynote' | 'talk' | 'panel' | 'special';
+export type AgendaKind = 'break' | 'address' | 'keynote' | 'talk' | 'panel' | 'special' | 'fireside' | 'qa' | 'poll';
 
 export interface AgendaItem {
-  time: string;
+  time: string; // start, shown as typed
+  until?: string; // end time
   kind: AgendaKind;
   title: string;
-  topic?: string;
-  people?: string[];
+  topic?: string; // shown in quotes under the title
+  note?: string; // plain muted line under the title
+  people?: string[]; // empty/omitted shows "Speakers to be announced"
 }
 
-// CONFIRM — the shape of the day, modelled on earlier editions.
-// Fill in topics and people as sessions are locked.
 export const AGENDA: AgendaItem[] = [
-  { time: '09:00', kind: 'break', title: 'Registration & morning coffee' },
-  { time: '09:45', kind: 'address', title: 'Welcome address' },
-  { time: '10:00', kind: 'address', title: 'Inaugural session' },
-  { time: '10:45', kind: 'keynote', title: 'Keynote' },
-  { time: '11:30', kind: 'talk', title: 'Power talk' },
-  { time: '12:00', kind: 'panel', title: 'Panel discussion' },
-  { time: '13:00', kind: 'break', title: 'Lunch & networking' },
-  { time: '14:00', kind: 'talk', title: 'Power talk' },
-  { time: '14:30', kind: 'special', title: 'Special session' },
-  { time: '15:15', kind: 'panel', title: 'Panel discussion' },
-  { time: '16:15', kind: 'address', title: 'Closing remarks' },
+  { time: '8:30 AM', until: '9:30 AM', kind: 'break', title: 'Registration & networking', note: 'Registration and morning networking' },
+  { time: '9:30 AM', until: '9:40 AM', kind: 'address', title: 'Welcome address', people: ['Deepa Nair, 6D Technologies (HR Evolve member)'] },
+  { time: '9:40 AM', until: '10:25 AM', kind: 'address', title: 'Inaugural function' },
+  { time: '10:25 AM', until: '11:00 AM', kind: 'special', title: 'Felicitation of Great Place To Work Certified Organisations', note: 'Recognition ceremony', people: [] },
+  { time: '11:00 AM', until: '11:40 AM', kind: 'keynote', title: 'Keynote address', people: ['Dr. Pawan Agrawal'] },
+  { time: '11:40 AM', until: '11:45 AM', kind: 'qa', title: 'Q&A', note: 'Keynote session' },
+  { time: '11:45 AM', until: '11:50 AM', kind: 'poll', title: 'Poll slot 01', note: 'Interactive audience engagement' },
+  { time: '11:50 AM', until: '12:20 PM', kind: 'talk', title: 'Power talk', people: ['Venkates Pentakota'] },
+  { time: '12:20 PM', until: '12:25 PM', kind: 'qa', title: 'Q&A', note: 'Power talk' },
+  { time: '12:25 PM', until: '12:30 PM', kind: 'poll', title: 'Poll slot 02', note: 'Interactive audience engagement' },
+  { time: '12:30 PM', until: '1:00 PM', kind: 'fireside', title: 'Fireside chat' },
+  { time: '1:00 PM', until: '1:55 PM', kind: 'break', title: 'Lunch & networking', note: 'Lunch break' },
+  { time: '1:55 PM', until: '2:40 PM', kind: 'special', title: 'Special address', people: ['Abhijith Krishna'] },
+  { time: '2:40 PM', until: '2:45 PM', kind: 'poll', title: 'Poll slot 03', note: 'Interactive audience engagement' },
+  { time: '2:45 PM', until: '3:15 PM', kind: 'talk', title: 'Power talk', people: ['Mathew Isac'] },
+  { time: '3:15 PM', until: '3:20 PM', kind: 'qa', title: 'Q&A', note: 'Power talk' },
+  { time: '3:25 PM', until: '3:45 PM', kind: 'talk', title: 'Power talk' },
+  { time: '3:45 PM', until: '3:50 PM', kind: 'qa', title: 'Q&A', note: 'Power talk' },
+  {
+    time: '3:50 PM',
+    until: '4:20 PM',
+    kind: 'panel',
+    title: 'Panel discussion',
+    people: ['Jazna Rafeek, Director & Chief Operating Officer, PIT Solutions Limited'],
+  },
+  { time: '4:20 PM', until: '4:25 PM', kind: 'qa', title: 'Q&A', note: 'Panel discussion' },
+  { time: '4:50 PM', until: '5:00 PM', kind: 'address', title: 'Vote of thanks & closing remarks' },
 ];
-export const AGENDA_NOTE = 'Timings are indicative. Sessions and speakers will be announced here.';
+export const AGENDA_NOTE = 'Timings are indicative. Speakers marked “to be announced” will be added here as they confirm.';
 
 export const FAQS = [
   {

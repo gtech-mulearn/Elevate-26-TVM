@@ -121,7 +121,7 @@ export default function Hero() {
     {
       label: 'When',
       value: date ? `${date.day} ${date.month}` : 'Announcing soon',
-      sub: date ? `${date.weekday}, ${date.year} · 9:00 AM` : 'Date to be revealed',
+      sub: date ? `${date.weekday}, ${date.year} · ${EVENT.doorsOpen}` : 'Date to be revealed',
     },
     { label: 'Where', value: EVENT.venue.hall, sub: `${EVENT.venue.building}, Technopark` },
     { label: 'Format', value: 'One day, in person', sub: 'Keynotes · Talks · Panels' },
