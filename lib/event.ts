@@ -27,7 +27,7 @@ export const EVENT = {
 
   // Registration link (e.g. MakeMyPass). Leave empty and every ticket button
   // reads "Registrations opening soon" instead of linking out.
-  registerUrl: '',
+  registerUrl: 'https://makemypass.com/event/elevate26-hr-conclave',
 
   ticket: {
     price: 999, // regular price
