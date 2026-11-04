@@ -154,7 +154,6 @@ export const AGENDA: AgendaItem[] = [
     until: '4:20 PM',
     kind: 'panel',
     title: 'Panel discussion',
-    people: ['Jazna Rafeek, Director & Chief Operating Officer, PIT Solutions Limited'],
   },
   { time: '4:20 PM', until: '4:25 PM', kind: 'qa', title: 'Q&A', note: 'Panel discussion' },
   { time: '4:50 PM', until: '5:00 PM', kind: 'address', title: 'Vote of thanks & closing remarks' },
