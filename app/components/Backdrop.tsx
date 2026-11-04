@@ -271,3 +271,35 @@ export function GlyphBackdrop({ glyph = '?', side = 'left' }: { glyph?: string; 
     </div>
   );
 }
+
+/** Soft concentric halos around the content, like ripples from a single point. */
+export function HaloBackdrop() {
+  const id = useId();
+  const radii = [140, 230, 320, 410, 500];
+  return (
+    <div aria-hidden className={wrap}>
+      <svg viewBox="0 0 1000 700" className="absolute left-1/2 top-1/2 h-[54rem] w-[78rem] max-w-none -translate-x-1/2 -translate-y-1/2">
+        <defs>
+          <linearGradient id={`${id}-g`} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#f0263e" />
+            <stop offset="1" stopColor="#c21fcb" />
+          </linearGradient>
+        </defs>
+        {radii.map((r, i) => (
+          <circle
+            key={r}
+            cx="500"
+            cy="350"
+            r={r}
+            fill="none"
+            stroke="var(--color-ink)"
+            strokeOpacity={0.1 - i * 0.015}
+            strokeDasharray={i % 2 ? '2 8' : undefined}
+          />
+        ))}
+        <circle cx="500" cy="350" r="320" fill="none" stroke={`url(#${id}-g)`} strokeOpacity="0.4" strokeWidth="1.5" strokeDasharray="300 1710" strokeLinecap="round" />
+      </svg>
+      <Glows side="left" />
+    </div>
+  );
+}

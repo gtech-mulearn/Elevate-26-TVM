@@ -9,6 +9,7 @@ import Tickets from './components/Tickets';
 import Partners from './components/Partners';
 import Venue from './components/Venue';
 import FAQ from './components/FAQ';
+import CoreTeam from './components/CoreTeam';
 import Footer from './components/Footer';
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
         <Partners />
         <Venue />
         <FAQ />
+        <CoreTeam />
       </main>
       <Footer />
     </>

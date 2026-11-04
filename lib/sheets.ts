@@ -1,5 +1,5 @@
 // Live data from the ELEVATE'26 Google Sheet (CSV export, sheet shared "anyone with the link").
-// One spreadsheet, three tabs; env vars override the defaults. If a tab can't be
+// One spreadsheet, four tabs; env vars override the defaults. If a tab can't be
 // fetched, callers get `null` and render their fallback.
 
 const SHEET_ID = process.env.NEXT_PUBLIC_SHEET_ID || '16zCivkxycg37rWt65a4aeR3b-Ku-vVbkWyCYLKTA-_4';
@@ -7,6 +7,7 @@ const GIDS = {
   speakers: process.env.NEXT_PUBLIC_SPEAKERS_GID || '168332648',
   partners: process.env.NEXT_PUBLIC_PARTNERS_GID || '89538245',
   soldOut: process.env.NEXT_PUBLIC_SOLD_OUT_GID || '2059209065',
+  team: process.env.NEXT_PUBLIC_TEAM_GID || '1445525986',
 };
 
 // Column index by header name (case/whitespace-insensitive), e.g. "Name " → name.
@@ -23,6 +24,12 @@ export interface Speaker {
   name: string;
   title: string;
   company: string;
+  image: string;
+  linkedin?: string;
+}
+
+export interface TeamMember {
+  name: string;
   image: string;
   linkedin?: string;
 }
@@ -99,6 +106,26 @@ export async function fetchSpeakers(): Promise<Speaker[] | null> {
       linkedin: cell(r, col.linkedin) || undefined,
     }))
     .filter((s) => s.name && s.image);
+}
+
+export async function fetchCoreTeam(): Promise<TeamMember[] | null> {
+  const rows = await fetchTab(GIDS.team);
+  if (!rows) return null;
+  // Expected headers: Name, Image, Linkedin. A row needs a name; the photo is optional
+  // (people without one get an initials avatar).
+  const col = columns(rows[0], {
+    name: (h) => h === 'name',
+    image: (h) => h.includes('image') || h.includes('photo'),
+    linkedin: (h) => h.includes('linkedin'),
+  });
+  return rows
+    .slice(1)
+    .map((r) => ({
+      name: cell(r, col.name),
+      image: cell(r, col.image),
+      linkedin: cell(r, col.linkedin) || undefined,
+    }))
+    .filter((m) => m.name);
 }
 
 export async function fetchPartners(): Promise<Partner[] | null> {
