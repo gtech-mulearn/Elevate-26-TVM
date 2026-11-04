@@ -16,8 +16,8 @@ function initialsOf(name: string) {
 }
 
 function Avatar({ member }: { member: TeamMember }) {
-  // Shown at ≤144px, so 320px wide covers 2× screens without pulling the full-size original.
-  const [urls] = useState(() => (member.image ? imageCandidates(member.image, { width: 320, format: 'jpg' }) : []));
+  // Shown at ≤176px, so 400px wide covers 2× screens without pulling the full-size original.
+  const [urls] = useState(() => (member.image ? imageCandidates(member.image, { width: 400, format: 'jpg' }) : []));
   const [idx, setIdx] = useState(0);
 
   if (idx >= urls.length) {
@@ -53,11 +53,11 @@ function Member({ member }: { member: TeamMember }) {
   const body = (
     <>
       <div className="relative">
-        <div className="mx-auto h-28 w-28 overflow-hidden rounded-full bg-paper-2 ring-1 ring-ink/10 ring-offset-4 ring-offset-paper transition-all duration-500 group-hover:ring-laterite/60 sm:h-36 sm:w-36">
+        <div className="mx-auto h-32 w-32 overflow-hidden rounded-full bg-paper-2 ring-1 ring-ink/10 ring-offset-4 ring-offset-paper transition-all duration-500 group-hover:ring-laterite/60 sm:h-44 sm:w-44">
           <Avatar member={member} />
         </div>
         {member.linkedin && (
-          <span className="bg-grad absolute bottom-0 right-[calc(50%-3.25rem)] grid h-8 w-8 place-items-center rounded-full text-paper shadow-md ring-2 ring-paper transition-transform duration-500 group-hover:scale-110 sm:right-[calc(50%-4.25rem)]">
+          <span className="bg-grad absolute bottom-0 right-[calc(50%-3.75rem)] grid h-8 w-8 place-items-center rounded-full text-paper shadow-md ring-2 ring-paper transition-transform duration-500 group-hover:scale-110 sm:right-[calc(50%-5.25rem)]">
             <LinkedInMark />
           </span>
         )}
@@ -104,7 +104,7 @@ export default function CoreTeam() {
 
         <div className="mt-16 flex flex-wrap justify-center gap-x-6 gap-y-12 sm:gap-x-10">
           {team.map((m, i) => (
-            <Reveal key={`${m.name}-${i}`} delay={(i % 6) * 0.06} className="w-32 sm:w-40">
+            <Reveal key={`${m.name}-${i}`} delay={(i % 6) * 0.06} className="w-36 sm:w-48">
               <Member member={m} />
             </Reveal>
           ))}
