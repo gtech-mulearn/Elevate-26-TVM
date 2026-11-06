@@ -130,34 +130,7 @@ export interface AgendaItem {
   people?: string[]; // empty/omitted shows "Speakers to be announced"
 }
 
-export const AGENDA: AgendaItem[] = [
-  { time: '8:30 AM', until: '9:30 AM', kind: 'break', title: 'Registration & networking', note: 'Registration and morning networking' },
-  { time: '9:30 AM', until: '9:40 AM', kind: 'address', title: 'Welcome address', people: ['Deepa Nair, 6D Technologies (HR Evolve member)'] },
-  { time: '9:40 AM', until: '10:25 AM', kind: 'address', title: 'Inaugural function' },
-  { time: '10:25 AM', until: '11:00 AM', kind: 'special', title: 'Felicitation of Great Place To Work Certified Organisations', note: 'Recognition ceremony', people: [] },
-  { time: '11:00 AM', until: '11:40 AM', kind: 'keynote', title: 'Keynote address', people: ['Dr. Pawan Agrawal'] },
-  { time: '11:40 AM', until: '11:45 AM', kind: 'qa', title: 'Q&A', note: 'Keynote session' },
-  { time: '11:45 AM', until: '11:50 AM', kind: 'poll', title: 'Poll slot 01', note: 'Interactive audience engagement' },
-  { time: '11:50 AM', until: '12:20 PM', kind: 'talk', title: 'Power talk', people: ['Venkates Pentakota'] },
-  { time: '12:20 PM', until: '12:25 PM', kind: 'qa', title: 'Q&A', note: 'Power talk' },
-  { time: '12:25 PM', until: '12:30 PM', kind: 'poll', title: 'Poll slot 02', note: 'Interactive audience engagement' },
-  { time: '12:30 PM', until: '1:00 PM', kind: 'fireside', title: 'Fireside chat' },
-  { time: '1:00 PM', until: '1:55 PM', kind: 'break', title: 'Lunch & networking', note: 'Lunch break' },
-  { time: '1:55 PM', until: '2:40 PM', kind: 'special', title: 'Special address', people: ['Abhijith Krishna'] },
-  { time: '2:40 PM', until: '2:45 PM', kind: 'poll', title: 'Poll slot 03', note: 'Interactive audience engagement' },
-  { time: '2:45 PM', until: '3:15 PM', kind: 'talk', title: 'Power talk', people: ['Mathew Isac'] },
-  { time: '3:15 PM', until: '3:20 PM', kind: 'qa', title: 'Q&A', note: 'Power talk' },
-  { time: '3:25 PM', until: '3:45 PM', kind: 'talk', title: 'Power talk' },
-  { time: '3:45 PM', until: '3:50 PM', kind: 'qa', title: 'Q&A', note: 'Power talk' },
-  {
-    time: '3:50 PM',
-    until: '4:20 PM',
-    kind: 'panel',
-    title: 'Panel discussion',
-  },
-  { time: '4:20 PM', until: '4:25 PM', kind: 'qa', title: 'Q&A', note: 'Panel discussion' },
-  { time: '4:50 PM', until: '5:00 PM', kind: 'address', title: 'Vote of thanks & closing remarks' },
-];
+// The agenda itself lives in the "Agenda" tab of the Google Sheet (see lib/sheets.ts, fetchAgenda).
 export const AGENDA_NOTE = 'Timings are indicative. Speakers marked “to be announced” will be added here as they confirm.';
 
 export const FAQS = [

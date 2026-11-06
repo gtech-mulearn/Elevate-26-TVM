@@ -1,6 +1,8 @@
 // Live data from the ELEVATE'26 Google Sheet (CSV export, sheet shared "anyone with the link").
-// One spreadsheet, four tabs; env vars override the defaults. If a tab can't be
+// One spreadsheet, five tabs; env vars override the defaults. If a tab can't be
 // fetched, callers get `null` and render their fallback.
+
+import type { AgendaItem, AgendaKind } from './event';
 
 const SHEET_ID = process.env.NEXT_PUBLIC_SHEET_ID || '16zCivkxycg37rWt65a4aeR3b-Ku-vVbkWyCYLKTA-_4';
 const GIDS = {
@@ -8,6 +10,7 @@ const GIDS = {
   partners: process.env.NEXT_PUBLIC_PARTNERS_GID || '89538245',
   soldOut: process.env.NEXT_PUBLIC_SOLD_OUT_GID || '2059209065',
   team: process.env.NEXT_PUBLIC_TEAM_GID || '1445525986',
+  agenda: process.env.NEXT_PUBLIC_AGENDA_GID || '1427573235',
 };
 
 // Column index by header name (case/whitespace-insensitive), e.g. "Name " → name.
@@ -126,6 +129,58 @@ export async function fetchCoreTeam(): Promise<TeamMember[] | null> {
       linkedin: cell(r, col.linkedin) || undefined,
     }))
     .filter((m) => m.name);
+}
+
+// Free-text "Type" cell → one of the agenda styles ("Power Talk", "q&a", "Lunch" …).
+function agendaKind(raw: string): AgendaKind {
+  const k = raw.toLowerCase().replace(/[^a-z&]/g, '');
+  if (/^(break|registration|lunch|networking|tea|coffee)/.test(k)) return 'break';
+  if (/^(qa|q&a|question)/.test(k)) return 'qa';
+  if (k.startsWith('poll')) return 'poll';
+  if (k.startsWith('keynote')) return 'keynote';
+  if (k.startsWith('panel')) return 'panel';
+  if (k.startsWith('fireside')) return 'fireside';
+  if (/^(talk|powertalk|session)/.test(k)) return 'talk';
+  if (/^(address|welcome|inaugural|closing|thanks|vote)/.test(k)) return 'address';
+  return 'special';
+}
+
+const NOT_A_NAME = /^(tba|tbd|to be announced|speakers? (details )?to be announced|n\/a|-)$/i;
+
+export async function fetchAgenda(): Promise<AgendaItem[] | null> {
+  const rows = await fetchTab(GIDS.agenda);
+  if (!rows) return null;
+  // Headers: Start, End, Type, Title, Note, Topic, Speakers. Only Start and Title are required.
+  // Put several speakers in one cell separated by line breaks, ";" or "|" (commas stay
+  // inside a name, e.g. "Jazna Rafeek, Director, PIT Solutions").
+  const col = columns(rows[0], {
+    time: (h) => h === 'time' || h.startsWith('start'),
+    until: (h) => h === 'until' || h.startsWith('end'),
+    kind: (h) => h === 'type' || h === 'kind' || h === 'category',
+    title: (h) => h === 'title' || h === 'session' || h === 'activity',
+    note: (h) => h === 'note' || h === 'notes' || h === 'details',
+    topic: (h) => h === 'topic' || h === 'theme',
+    people: (h) => h.includes('speaker') || h === 'people',
+  });
+  const items = rows
+    .slice(1)
+    .map((r): AgendaItem => {
+      const people = cell(r, col.people)
+        .split(/\n|;|\|/)
+        .map((p) => p.trim())
+        .filter((p) => p && !NOT_A_NAME.test(p));
+      return {
+        time: cell(r, col.time),
+        until: cell(r, col.until) || undefined,
+        kind: agendaKind(cell(r, col.kind)),
+        title: cell(r, col.title),
+        note: cell(r, col.note) || undefined,
+        topic: cell(r, col.topic) || undefined,
+        people: people.length ? people : undefined,
+      };
+    })
+    .filter((a) => a.time && a.title);
+  return items;
 }
 
 export async function fetchPartners(): Promise<Partner[] | null> {

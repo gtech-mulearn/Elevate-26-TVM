@@ -19,7 +19,6 @@ All event copy is in [`lib/event.ts`](lib/event.ts). Lines marked `CONFIRM` are 
 | `startsAt` / `endsAt` | Shows "Announcing soon" and hides the countdown |
 | `registerUrl` | Every ticket button reads "Registrations opening soon" |
 | `PRESENTERS` | The "Presented by" logo row under the hero is hidden |
-| `AGENDA[].topic` / `people` | Agenda shows "Speakers to be announced" |
 
 ## Live data (Google Sheets)
 
@@ -27,6 +26,7 @@ Copy `.env.example` to `.env.local`, or set the variables in Netlify. Every tab 
 
 - **Speakers** (`NEXT_PUBLIC_SPEAKERS_GID`): columns `name, title, company, image, linkedin`. When this is unset or the tab is empty, the page shows an "announcing soon" panel with the ELEVATE'25 speakers.
 - **Partners** (`NEXT_PUBLIC_PARTNERS_GID`): columns `name, logo, website`. When unset, the partner strip is hidden.
+- **Agenda** (`NEXT_PUBLIC_AGENDA_GID`): headers `Start, End, Type, Title, Note, Topic, Speakers` (see [`docs/agenda-sheet-template.csv`](docs/agenda-sheet-template.csv)). The agenda is read only from this tab; if it can't be loaded the section shows "The agenda is being finalised".
 - **Sold out** (`NEXT_PUBLIC_SOLD_OUT_GID`): a `Sold Out` header with `TRUE` in row 2. This disables every ticket button and stamps the ticket.
 
 Google Drive share links work for images and logos.

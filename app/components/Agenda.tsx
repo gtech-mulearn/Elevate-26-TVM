@@ -1,4 +1,8 @@
-import { AGENDA, AGENDA_NOTE, EVENT, formatEventDate, type AgendaKind } from '@/lib/event';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { AGENDA_NOTE, EVENT, formatEventDate, type AgendaItem, type AgendaKind } from '@/lib/event';
+import { fetchAgenda } from '@/lib/sheets';
 import { ContourBackdrop } from './Backdrop';
 import { Reveal, SectionHeading } from './ui';
 
@@ -14,8 +18,29 @@ const KIND: Record<AgendaKind, { label: string; dot: string; chip: string }> = {
   poll: { label: 'Live poll', dot: 'bg-gold-soft/70', chip: 'text-gold-soft/80 border-gold-soft/30' },
 };
 
+// Placeholder rows shown while the sheet loads, so the section keeps roughly its final height.
+function AgendaSkeleton() {
+  return (
+    <>
+      {Array.from({ length: 6 }, (_, i) => (
+        <li key={i} aria-hidden className="grid animate-pulse grid-cols-[5rem_1.5rem_1fr] items-start gap-x-3 py-5 sm:grid-cols-[5.5rem_2.5rem_1fr]">
+          <span className="mt-1.5 h-3 w-14 rounded bg-paper/10" />
+          <span className="mt-2.5 mx-auto h-2.5 w-2.5 rounded-full bg-paper/15" />
+          <span className="block h-20 rounded-xl border border-paper/10 bg-forest-2/50" />
+        </li>
+      ))}
+    </>
+  );
+}
+
 export default function Agenda() {
   const date = formatEventDate(EVENT.startsAt);
+  // The Google Sheet's "Agenda" tab is the only source: undefined = loading, [] = unavailable/empty.
+  const [items, setItems] = useState<AgendaItem[] | undefined>(undefined);
+
+  useEffect(() => {
+    fetchAgenda().then((fromSheet) => setItems(fromSheet ?? []));
+  }, []);
 
   return (
     <section id="agenda" className="relative overflow-hidden bg-forest py-24 text-paper sm:py-36">
@@ -41,8 +66,17 @@ export default function Agenda() {
           </div>
 
           <ol className="relative lg:col-span-7 lg:col-start-6">
-            <span className="absolute bottom-6 left-[6.5rem] top-6 w-px bg-paper/15 sm:left-[7.5rem]" aria-hidden />
-            {AGENDA.map((item, i) => {
+            {items?.length !== 0 && (
+              <span className="absolute bottom-6 left-[6.5rem] top-6 w-px bg-paper/15 sm:left-[7.5rem]" aria-hidden />
+            )}
+            {items === undefined && <AgendaSkeleton />}
+            {items?.length === 0 && (
+              <li className="rounded-xl border border-dashed border-paper/15 px-5 py-8 text-paper/60">
+                <p className="display text-2xl italic text-paper/80">The agenda is being finalised.</p>
+                <p className="mt-2 text-sm">Check back soon, we’ll publish the full programme here.</p>
+              </li>
+            )}
+            {items?.map((item, i) => {
               const k = KIND[item.kind];
               const isBreak = item.kind === 'break';
               // Q&A and poll slots are 5-minute interludes: shown as slim cards
