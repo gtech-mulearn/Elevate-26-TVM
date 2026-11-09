@@ -8,7 +8,7 @@ export default function FAQ() {
       <GlyphBackdrop glyph="?" side="left" />
       <div className="relative mx-auto max-w-[1400px] px-4 py-24 sm:px-8 sm:py-36">
         <div className="grid gap-12 lg:grid-cols-12">
-          <SectionHeading index="07" eyebrow="FAQ" title="Good" accent="questions." className="lg:col-span-4" />
+          <SectionHeading index="08" eyebrow="FAQ" title="Good" accent="questions." className="lg:col-span-4" />
 
           <div className="border-t border-ink/15 lg:col-span-7 lg:col-start-6">
             {FAQS.map((f, i) => (

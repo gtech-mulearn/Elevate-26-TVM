@@ -119,7 +119,7 @@ export default function Sponsors() {
       <DotsBackdrop side="left" />
       <div className="relative mx-auto max-w-[1400px] px-4 py-24 sm:px-8 sm:py-32">
         <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
-          <SectionHeading index="◆" eyebrow="Sponsors" title="Made possible" accent="by our sponsors." />
+          <SectionHeading index="06" eyebrow="Sponsors" title="Made possible" accent="by our sponsors." />
           <Reveal delay={0.1} className="max-w-sm text-ink-soft">
             Thank you to the organisations backing ELEVATE’26 and the HR community behind it.
           </Reveal>

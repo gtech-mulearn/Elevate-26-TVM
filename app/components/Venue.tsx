@@ -10,7 +10,7 @@ export default function Venue() {
     <section id="venue" className="relative overflow-hidden bg-paper-2/60 py-24 sm:py-36">
       <GridBackdrop side="right" />
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-8">
-        <SectionHeading index="06" eyebrow="Venue" title="Home ground," accent="Technopark." />
+        <SectionHeading index="07" eyebrow="Venue" title="Home ground," accent="Technopark." />
 
         <div className="mt-16 grid gap-6 lg:grid-cols-12">
           <Reveal className="relative lg:col-span-7">
