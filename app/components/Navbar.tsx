@@ -19,15 +19,22 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const sections = NAV.map((n) => document.querySelector(n.href)).filter(Boolean) as Element[];
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`));
       },
       { rootMargin: '-45% 0px -50% 0px' },
     );
-    sections.forEach((s) => io.observe(s));
-    return () => io.disconnect();
+    // Some sections (Sponsors, Core team) only render once the sheet has loaded, so keep
+    // looking for any that have appeared since; observe() on a section we already watch is harmless.
+    const watch = () => NAV.forEach((n) => { const el = document.querySelector(n.href); if (el) io.observe(el); });
+    watch();
+    const mo = new MutationObserver(watch);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      mo.disconnect();
+      io.disconnect();
+    };
   }, []);
 
   useEffect(() => {

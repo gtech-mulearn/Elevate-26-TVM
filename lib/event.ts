@@ -161,6 +161,7 @@ export const NAV = [
   { label: 'Themes', href: '#themes' },
   { label: 'Speakers', href: '#speakers' },
   { label: 'Agenda', href: '#agenda' },
+  { label: 'Sponsors', href: '#sponsors' },
   { label: 'Venue', href: '#venue' },
   { label: 'FAQ', href: '#faq' },
 ];

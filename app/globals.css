@@ -30,6 +30,15 @@
   to { transform: translateX(-50%); }
 }
 
+/* Sponsor title reveal: a wave that drifts sideways while the panel rises */
+@keyframes wave-x {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes wave-y {
+  to { transform: translateY(-50%); }
+}
+
 /* Spotlight beams (Speakers backdrop) */
 @keyframes sway {
   from { rotate: -4deg; }

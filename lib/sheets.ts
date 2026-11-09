@@ -39,6 +39,8 @@ export interface TeamMember {
 
 export interface Partner {
   name: string;
+  /** What they sponsor, e.g. "Tech sponsor" (the sheet's Title column). */
+  title?: string;
   logo: string;
   website?: string;
 }
@@ -191,6 +193,7 @@ export async function fetchPartners(): Promise<Partner[] | null> {
     name: (h) => h === 'name' || h.includes('partner'),
     logo: (h) => h.includes('logo'),
     website: (h) => h.includes('website') || h === 'url' || h === 'link',
+    title: (h) => h === 'title' || h === 'sponsor type' || h === 'category',
   });
   return rows
     .slice(1)
@@ -198,6 +201,7 @@ export async function fetchPartners(): Promise<Partner[] | null> {
       name: cell(r, col.name) || `Partner ${i + 1}`,
       logo: cell(r, col.logo),
       website: cell(r, col.website) || undefined,
+      title: cell(r, col.title) || undefined,
     }))
     .filter((p) => p.logo.startsWith('http') || p.logo.startsWith('/'));
 }
@@ -217,11 +221,20 @@ export async function fetchSoldOut(): Promise<boolean> {
 // Requires referrerPolicy="no-referrer" on the <img>.
 export function imageCandidates(
   url: string,
-  { width = 1000, format = 'jpg' }: { width?: number; format?: 'jpg' | 'webp' } = {},
+  { width = 1000, format = 'jpg' }: { width?: number; format?: 'jpg' | 'webp' | 'original' } = {},
 ): string[] {
   if (!url.includes('drive.google.com')) return [url];
   const id = url.match(/\/d\/([\w-]{20,})/)?.[1] ?? url.match(/id=([\w-]{20,})/)?.[1];
   if (!id) return [url];
+  // Drive's resized copies (=w…-rj / -rw / thumbnail) flatten transparent PNGs onto a BLACK
+  // background. Logos need their transparency, so they use the untouched original instead.
+  if (format === 'original') {
+    return [
+      `https://lh3.googleusercontent.com/d/${id}`,
+      `https://drive.google.com/uc?export=view&id=${id}`,
+      `https://drive.google.com/thumbnail?id=${id}&sz=w${width}`,
+    ];
+  }
   return [
     `https://lh3.googleusercontent.com/d/${id}=w${width}-${format === 'webp' ? 'rw' : 'rj-l80'}`,
     `https://drive.google.com/thumbnail?id=${id}&sz=w${width}`,

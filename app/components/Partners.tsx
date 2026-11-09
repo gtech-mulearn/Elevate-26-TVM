@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { fetchPartners, imageCandidates, type Partner } from '@/lib/sheets';
 
 function Logo({ partner }: { partner: Partner }) {
-  // Displayed at ≤144×48px; 320px wide WebP stays sharp on 2× screens and keeps transparency.
-  const [urls] = useState(() => imageCandidates(partner.logo, { width: 320, format: 'webp' }));
+  // Displayed at ≤144×48px. Uses the original file: Drive's resized copies turn transparency black.
+  const [urls] = useState(() => imageCandidates(partner.logo, { width: 320, format: 'original' }));
   const [idx, setIdx] = useState(0);
   if (idx >= urls.length) return null;
   const img = (

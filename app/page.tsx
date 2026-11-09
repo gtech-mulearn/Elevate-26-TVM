@@ -7,6 +7,7 @@ import Speakers from './components/Speakers';
 import Agenda from './components/Agenda';
 import Tickets from './components/Tickets';
 import Partners from './components/Partners';
+import Sponsors from './components/Sponsors';
 import Venue from './components/Venue';
 import FAQ from './components/FAQ';
 import CoreTeam from './components/CoreTeam';
@@ -18,13 +19,14 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Marquee />
+        <Partners />
         <About />
+        <Marquee />
         <Themes />
         <Speakers />
         <Agenda />
         <Tickets />
-        <Partners />
+        <Sponsors />
         <Venue />
         <FAQ />
         <CoreTeam />
